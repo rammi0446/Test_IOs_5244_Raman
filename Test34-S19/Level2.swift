@@ -14,7 +14,8 @@ class Level2: SKScene, SKPhysicsContactDelegate {
     
     var nextLevelButton:SKLabelNode!
    // var cat: SKSpriteNode!
-    
+    var movingRight:Bool = true
+     let cat = SKSpriteNode(imageNamed: "frame1")
     
     override func didMove(to view: SKView) {
         print("Loaded level 2")
@@ -31,16 +32,16 @@ class Level2: SKScene, SKPhysicsContactDelegate {
         let nodeA = contact.bodyA.node
         let nodeB = contact.bodyB.node
         
-        if(nodeA!.name == "player" && nodeB!.name == "exit")
+        if(nodeA!.name == "cat" && nodeB!.name == "rect1")
         {
             
-            print("player touch the exit")
+            print("player touch the rect1")
       
         }
-        if(nodeA!.name == "exit" && nodeB!.name == "player")
+        if(nodeA!.name == "cat" && nodeB!.name == "rect2")
         {
             
-            print("player touch the exit")
+            print("player touch the rect2")
      
         }
     
@@ -51,12 +52,15 @@ class Level2: SKScene, SKPhysicsContactDelegate {
     func makeCats() {
         // lets add some cats
        //cat = SKSpriteNode(imageNamed: "frame1")
-          let cat = SKSpriteNode(imageNamed: "frame1")
+        
+       
+
         // generate a random (x,y) for the cat
-        let randX = Int(CGFloat((UInt32(self.size.width-200))))
+        let randX = Int(CGFloat((UInt32(self.size.width-500))))
         let randY = Int(CGFloat((UInt32(self.size.height-200))))
         
         cat.position = CGPoint(x:randX, y:randY)
+         print("Where is cat? \(randX), \(randY)")
         
         addChild(cat)
         let catBodyTexture = SKTexture(imageNamed: "frame1")
@@ -64,11 +68,9 @@ class Level2: SKScene, SKPhysicsContactDelegate {
                                         size: catBodyTexture.size())
         cat.physicsBody?.isDynamic = true
         cat.physicsBody?.allowsRotation = false
-        cat.physicsBody?.affectedByGravity = true
-        cat.position.x = cat.position.x + 10
+      
         
-       
-        
+  
        
         //move cats
         
@@ -78,7 +80,33 @@ class Level2: SKScene, SKPhysicsContactDelegate {
     //time
      var timeOfLastUpdate:TimeInterval?
     override func update(_ currentTime: TimeInterval) {
-       
+        if(movingRight == true)
+        {
+            print("cat is moving")
+            cat.position.x = cat.position.x + 5
+            cat.physicsBody?.affectedByGravity = true
+            if(cat.position.x >= self.frame.width - 100)
+            {
+                movingRight = false
+            }
+            
+        }
+        if(movingRight == false)
+        {
+            print("cat is moving")
+            cat.position.x = cat.position.x - 5
+            cat.physicsBody?.affectedByGravity = true
+            if(cat.position.x <=  200)
+            {
+                movingRight = true
+            }
+            
+        }
+        
+        if(cat.physicsBody?.collisionBitMask == 2)
+        {
+            print("collision with rect2")
+        }
         // Called before each frame is rendered
        // if (timeOfLastUpdate == nil) {
             timeOfLastUpdate = currentTime
@@ -126,5 +154,7 @@ class Level2: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    
+
    
 }
