@@ -23,7 +23,6 @@ class Level2: SKScene, SKPhysicsContactDelegate {
         // Required for SKPhysicsContactDelegate
         self.physicsWorld.contactDelegate = self
         self.nextLevelButton = self.childNode(withName: "nextLevelButton") as! SKLabelNode
-        
         self.makeCats()
     }
     
@@ -42,13 +41,28 @@ class Level2: SKScene, SKPhysicsContactDelegate {
             
             print("player touch the exit")
             nodeA!.physicsBody?.isDynamic = false;
-            
+            //Game win
+            let messegeLabel = SKLabelNode(text: "You Win")
+            messegeLabel.fontColor = UIColor.yellow
+            messegeLabel.fontSize = 80
+            messegeLabel.position.x = self.size.width/2
+            messegeLabel.position.y = self.size.height/2
+            addChild(messegeLabel)
+          
         }
         if(nodeA!.name == "exit" && nodeB!.name == "cat")
         {
             
             print("player touch the exit")
             nodeB!.physicsBody?.isDynamic = false;
+            //Game win
+            let messegeLabel = SKLabelNode(text: "You Win")
+            messegeLabel.fontColor = UIColor.yellow
+            messegeLabel.fontSize = 80
+            messegeLabel.position.x = self.size.width/2
+            messegeLabel.position.y = self.size.height/2
+            addChild(messegeLabel)
+           
             
         }
         
