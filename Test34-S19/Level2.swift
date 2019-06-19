@@ -14,7 +14,7 @@ class Level2: SKScene, SKPhysicsContactDelegate {
     
     var nextLevelButton:SKLabelNode!
    // var cat: SKSpriteNode!
-       let cat = SKSpriteNode(imageNamed: "frame1")
+    
     
     override func didMove(to view: SKView) {
         print("Loaded level 2")
@@ -43,12 +43,12 @@ class Level2: SKScene, SKPhysicsContactDelegate {
     
     }
     
-    var leemings:[SKSpriteNode] = []
+   
     
     func makeCats() {
         // lets add some cats
        //cat = SKSpriteNode(imageNamed: "frame1")
-        
+          let cat = SKSpriteNode(imageNamed: "frame1")
         // generate a random (x,y) for the cat
         let randX = Int(CGFloat((UInt32(self.size.width-200))))
         let randY = Int(CGFloat((UInt32(self.size.height-200))))
@@ -56,7 +56,15 @@ class Level2: SKScene, SKPhysicsContactDelegate {
         cat.position = CGPoint(x:randX, y:randY)
         
         addChild(cat)
-    
+        let catBodyTexture = SKTexture(imageNamed: "frame1")
+        cat.physicsBody = SKPhysicsBody(texture: catBodyTexture,
+                                        size: catBodyTexture.size())
+        cat.physicsBody?.isDynamic = true
+        cat.position.x = cat.position.x - 10
+        if(cat.position.x <= 100)
+        {
+            cat.physicsBody?.affectedByGravity = true
+        }
         //move cats
         
         print("Where is cat? \(randX), \(randY)")
@@ -65,7 +73,7 @@ class Level2: SKScene, SKPhysicsContactDelegate {
     //time
      var timeOfLastUpdate:TimeInterval?
     override func update(_ currentTime: TimeInterval) {
-        self.cat.position.x = self.cat.position.x - 10
+       
         // Called before each frame is rendered
         if (timeOfLastUpdate == nil) {
             timeOfLastUpdate = currentTime
@@ -77,6 +85,8 @@ class Level2: SKScene, SKPhysicsContactDelegate {
             timeOfLastUpdate = currentTime
             // make a cat
             self.makeCats()
+           
+            
         }
         
     }
