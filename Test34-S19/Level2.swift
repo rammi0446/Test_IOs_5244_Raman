@@ -9,18 +9,76 @@
 import SpriteKit
 import GameplayKit
 
-class Level2: SKScene {
+
+class Level2: SKScene, SKPhysicsContactDelegate {
     
     var nextLevelButton:SKLabelNode!
-    
+   // var cat: SKSpriteNode!
+       let cat = SKSpriteNode(imageNamed: "frame1")
     
     override func didMove(to view: SKView) {
         print("Loaded level 2")
+        // Required for SKPhysicsContactDelegate
+        self.physicsWorld.contactDelegate = self
         self.nextLevelButton = self.childNode(withName: "nextLevelButton") as! SKLabelNode
     }
     
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        let nodeA = contact.bodyA.node
+        let nodeB = contact.bodyB.node
+        
+        if(nodeA!.name == "player" && nodeB!.name == "exit")
+        {
+            
+            print("player touch the exit")
+      
+        }
+        if(nodeA!.name == "exit" && nodeB!.name == "player")
+        {
+            
+            print("player touch the exit")
+     
+        }
+    
+    }
+    
+    var leemings:[SKSpriteNode] = []
+    
+    func makeCats() {
+        // lets add some cats
+       //cat = SKSpriteNode(imageNamed: "frame1")
+        
+        // generate a random (x,y) for the cat
+        let randX = Int(CGFloat((UInt32(self.size.width-200))))
+        let randY = Int(CGFloat((UInt32(self.size.height-200))))
+        
+        cat.position = CGPoint(x:randX, y:randY)
+        
+        addChild(cat)
+    
+        //move cats
+        
+        print("Where is cat? \(randX), \(randY)")
+    }
+        
+    //time
+     var timeOfLastUpdate:TimeInterval?
     override func update(_ currentTime: TimeInterval) {
+        self.cat.position.x = self.cat.position.x - 10
         // Called before each frame is rendered
+        if (timeOfLastUpdate == nil) {
+            timeOfLastUpdate = currentTime
+        }
+        // print a message every 3 seconds
+        var timePassed = (currentTime - timeOfLastUpdate!)
+        if (timePassed >= 1.5) {
+            print("HERE IS A MESSAGE!")
+            timeOfLastUpdate = currentTime
+            // make a cat
+            self.makeCats()
+        }
+        
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
@@ -48,5 +106,10 @@ class Level2: SKScene {
             }
         }
         
+        //move leemings
+        
+        
     }
+    
+   
 }
