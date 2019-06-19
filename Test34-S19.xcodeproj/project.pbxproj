@@ -73,6 +73,7 @@
 				9BE2D79722BA620C00F822BA /* Actions.sks */,
 				9BE2D79922BA620C00F822BA /* GameScene.swift */,
 				9BE2D7AB22BA71D700F822BA /* Level2.swift */,
+				9BE2D7B122BA734700F822BA /* Level3.swift */,
 				9BE2D79B22BA620C00F822BA /* GameViewController.swift */,
 				9BE2D79D22BA620C00F822BA /* Main.storyboard */,
 				9BE2D7A022BA621700F822BA /* Assets.xcassets */,
@@ -80,7 +81,6 @@
 				9BE2D7A522BA621700F822BA /* Info.plist */,
 				9BE2D7AD22BA71FA00F822BA /* Level2.sks */,
 				9BE2D7AF22BA72C000F822BA /* Level3.sks */,
-				9BE2D7B122BA734700F822BA /* Level3.swift */,
 			);
 			path = "Test34-S19";
 			sourceTree = "<group>";

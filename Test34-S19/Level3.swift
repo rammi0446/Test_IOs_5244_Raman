@@ -7,7 +7,7 @@ class Level3: SKScene {
     
     
     override func didMove(to view: SKView) {
-        print("Loaded level 3")
+        print("Loaded level 3 ....")
         
         self.nextLevelButton = self.childNode(withName: "nextLevelButton") as! SKLabelNode
     }
