@@ -21,10 +21,13 @@ class Level2: SKScene, SKPhysicsContactDelegate {
         // Required for SKPhysicsContactDelegate
         self.physicsWorld.contactDelegate = self
         self.nextLevelButton = self.childNode(withName: "nextLevelButton") as! SKLabelNode
+        
+          self.makeCats()
     }
     
     
     func didBegin(_ contact: SKPhysicsContact) {
+       
         let nodeA = contact.bodyA.node
         let nodeB = contact.bodyB.node
         
@@ -60,11 +63,13 @@ class Level2: SKScene, SKPhysicsContactDelegate {
         cat.physicsBody = SKPhysicsBody(texture: catBodyTexture,
                                         size: catBodyTexture.size())
         cat.physicsBody?.isDynamic = true
-        cat.position.x = cat.position.x - 10
-        if(cat.position.x <= 100)
-        {
-            cat.physicsBody?.affectedByGravity = true
-        }
+        cat.physicsBody?.allowsRotation = false
+        cat.physicsBody?.affectedByGravity = true
+        cat.position.x = cat.position.x + 10
+        
+       
+        
+       
         //move cats
         
         print("Where is cat? \(randX), \(randY)")
@@ -75,19 +80,19 @@ class Level2: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
        
         // Called before each frame is rendered
-        if (timeOfLastUpdate == nil) {
+       // if (timeOfLastUpdate == nil) {
             timeOfLastUpdate = currentTime
-        }
+       // }
         // print a message every 3 seconds
-        var timePassed = (currentTime - timeOfLastUpdate!)
-        if (timePassed >= 1.5) {
-            print("HERE IS A MESSAGE!")
-            timeOfLastUpdate = currentTime
+       // var timePassed = (currentTime - timeOfLastUpdate!)
+       // if (timePassed >= 1) {
+        //print("HERE IS A MESSAGE!")
+         //   timeOfLastUpdate = currentTime
             // make a cat
-            self.makeCats()
+        
            
             
-        }
+       // }
         
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
