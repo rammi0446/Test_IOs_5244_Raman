@@ -13,9 +13,10 @@ import GameplayKit
 class Level2: SKScene, SKPhysicsContactDelegate {
     
     var nextLevelButton:SKLabelNode!
-   // var cat: SKSpriteNode!
+    // var cat: SKSpriteNode!
     var movingRight:Bool = true
-     let cat = SKSpriteNode(imageNamed: "frame1")
+    let cat = SKSpriteNode(imageNamed: "frame1")
+    
     
     override func didMove(to view: SKView) {
         print("Loaded level 2")
@@ -23,44 +24,53 @@ class Level2: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         self.nextLevelButton = self.childNode(withName: "nextLevelButton") as! SKLabelNode
         
-          self.makeCats()
+        self.makeCats()
     }
     
     
     func didBegin(_ contact: SKPhysicsContact) {
-       
+        
         let nodeA = contact.bodyA.node
         let nodeB = contact.bodyB.node
         
-        if(nodeA!.name == "cat" && nodeB!.name == "rect1")
+        print("Node A: \(nodeA)")
+        print("Node B: \(nodeB)")
+        
+        
+        if(nodeA!.name == "cat" && nodeB!.name == "exit")
         {
             
-            print("player touch the rect1")
-      
+            print("player touch the exit")
+            nodeA!.physicsBody?.isDynamic = false;
+            
         }
-        if(nodeA!.name == "cat" && nodeB!.name == "rect2")
+        if(nodeA!.name == "exit" && nodeB!.name == "cat")
         {
             
-            print("player touch the rect2")
-     
+            print("player touch the exit")
+            nodeB!.physicsBody?.isDynamic = false;
+            
         }
-    
+        
+       
+        
+        
     }
     
-   
+    
     
     func makeCats() {
         // lets add some cats
-       //cat = SKSpriteNode(imageNamed: "frame1")
+        //cat = SKSpriteNode(imageNamed: "frame1")
         
-       
-
+        
+        
         // generate a random (x,y) for the cat
         let randX = Int(CGFloat((UInt32(self.size.width-500))))
         let randY = Int(CGFloat((UInt32(self.size.height-200))))
         
         cat.position = CGPoint(x:randX, y:randY)
-         print("Where is cat? \(randX), \(randY)")
+        print("Where is cat? \(randX), \(randY)")
         
         addChild(cat)
         let catBodyTexture = SKTexture(imageNamed: "frame1")
@@ -68,20 +78,21 @@ class Level2: SKScene, SKPhysicsContactDelegate {
                                         size: catBodyTexture.size())
         cat.physicsBody?.isDynamic = true
         cat.physicsBody?.allowsRotation = false
-      
+        cat.physicsBody?.categoryBitMask = 8
+        cat.physicsBody?.collisionBitMask = 3
+        cat.name = "cat"
         
-  
-       
-        //move cats
-        
+     
         print("Where is cat? \(randX), \(randY)")
     }
-        
+    
     //time
-     var timeOfLastUpdate:TimeInterval?
+    var timeOfLastUpdate:TimeInterval?
     override func update(_ currentTime: TimeInterval) {
+        
         if(movingRight == true)
         {
+
             print("cat is moving")
             cat.position.x = cat.position.x + 5
             cat.physicsBody?.affectedByGravity = true
@@ -93,6 +104,7 @@ class Level2: SKScene, SKPhysicsContactDelegate {
         }
         if(movingRight == false)
         {
+          
             print("cat is moving")
             cat.position.x = cat.position.x - 5
             cat.physicsBody?.affectedByGravity = true
@@ -103,58 +115,57 @@ class Level2: SKScene, SKPhysicsContactDelegate {
             
         }
         
-        if(cat.physicsBody?.collisionBitMask == 2)
-        {
-            print("collision with rect2")
-        }
-        // Called before each frame is rendered
-       // if (timeOfLastUpdate == nil) {
-            timeOfLastUpdate = currentTime
-       // }
-        // print a message every 3 seconds
-       // var timePassed = (currentTime - timeOfLastUpdate!)
-       // if (timePassed >= 1) {
-        //print("HERE IS A MESSAGE!")
-         //   timeOfLastUpdate = currentTime
-            // make a cat
-        
-           
-            
-       // }
-        
+    
+    
+    
+    // Called before each frame is rendered
+    // if (timeOfLastUpdate == nil) {
+    timeOfLastUpdate = currentTime
+    // }
+    // print a message every 3 seconds
+    // var timePassed = (currentTime - timeOfLastUpdate!)
+    // if (timePassed >= 1) {
+    //print("HERE IS A MESSAGE!")
+    //   timeOfLastUpdate = currentTime
+    // make a cat
+    
+    
+    
+    // }
+    
+}
+override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    let touch = touches.first
+    if (touch == nil) {
+        return
     }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touch = touches.first
-        if (touch == nil) {
+    
+    let location = touch!.location(in:self)
+    let node = self.atPoint(location)
+    
+    
+    
+    
+    // MARK: Switch Levels
+    
+    if (node.name == "nextLevelButton") {
+        let scene = SKScene(fileNamed:"Level3")
+        if (scene == nil) {
+            print("Error loading level")
             return
         }
-        
-        let location = touch!.location(in:self)
-        let node = self.atPoint(location)
-        
-        
-        
-        
-        // MARK: Switch Levels
-        
-        if (node.name == "nextLevelButton") {
-            let scene = SKScene(fileNamed:"Level3")
-            if (scene == nil) {
-                print("Error loading level")
-                return
-            }
-            else {
-                scene!.scaleMode = .aspectFill
-                view?.presentScene(scene!)
-            }
+        else {
+            scene!.scaleMode = .aspectFill
+            view?.presentScene(scene!)
         }
-        
-        //move leemings
-        
-        
     }
     
+    //move leemings
     
+    
+}
 
-   
+
+
+
 }
